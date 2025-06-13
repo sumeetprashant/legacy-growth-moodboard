@@ -3,794 +3,493 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legacy Growth - Premium Brand Strategy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Legacy Growth | Premium Brand Visual Strategy</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Jost & Cormorant Garamond -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Three.js for Particle Animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        /* Custom Styles to complement Tailwind */
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            color: #1a1a1a;
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            background-color: #f8f9fa;
+            color: #1a365d;
+        }
+
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
         }
         
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-        
-        /* Header with Particles */
         .header {
-            height: 100vh;
-            background: linear-gradient(135deg, #1a365d 0%, #0f172a 100%);
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #1a365d;
+            color: white;
+            padding: 80px 20px;
             text-align: center;
             overflow: hidden;
         }
-        
         #three-canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            z-index: 0;
         }
-        
         .header-content {
             position: relative;
-            z-index: 2;
-            color: white;
+            z-index: 1;
         }
-        
         .logo-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 4.5rem;
-            font-weight: 700;
-            color: #c9a961;
-            letter-spacing: -0.02em;
-            margin-bottom: 20px;
-            text-shadow: 0 4px 20px rgba(201, 169, 97, 0.3);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
         }
-        
         .tagline {
-            font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(1rem, 2vw, 1.25rem);
             font-weight: 300;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            opacity: 0.9;
         }
-        
         .divider {
-            width: 120px;
-            height: 3px;
-            background: linear-gradient(90deg, #c9a961, #f4d03f);
-            margin: 40px auto;
-            border-radius: 3px;
-            box-shadow: 0 0 20px rgba(201, 169, 97, 0.5);
-        }
-        
-        /* Navigation */
-        .nav-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 30px 0;
-        }
-        
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            flex-wrap: wrap;
+            width: 80px;
+            height: 2px;
+            background-color: #c9a961;
+            margin: 20px auto;
         }
         
         .nav-tab {
-            padding: 15px 30px;
-            background: none;
-            border: 2px solid rgba(26, 54, 93, 0.2);
-            border-radius: 50px;
-            color: #1a365d;
-            font-weight: 600;
+            padding: 12px 24px;
             cursor: pointer;
-            transition: all 0.4s ease;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            font-weight: 400;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            color: #64748b;
+        }
+        .nav-tab.active, .nav-tab:hover {
+            color: #1a365d;
+            border-bottom-color: #c9a961;
         }
         
-        .nav-tab:hover, .nav-tab.active {
-            background: #1a365d;
-            color: white;
-            border-color: #1a365d;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(26, 54, 93, 0.3);
-        }
-        
-        /* Content Sections */
         .content-section {
-            padding: 100px 0;
             display: none;
+            padding: 40px 0;
+            animation: fadeIn 0.8s ease;
         }
-        
         .content-section.active {
             display: block;
-            animation: fadeInUp 0.8s ease;
         }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #1a365d;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
             text-align: center;
-            margin-bottom: 25px;
-            letter-spacing: -0.02em;
         }
-        
         .section-subtitle {
             text-align: center;
             color: #64748b;
-            font-size: 1.3rem;
-            margin-bottom: 80px;
             max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 10px auto 40px;
             font-weight: 300;
         }
         
-        /* Color Palette */
-        .color-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-bottom: 60px;
+        .justified-text {
+            text-align: justify;
+            hyphens: auto;
+            -webkit-hyphens: auto;
         }
-        
-        .color-card {
-            background: white;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .color-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
-        }
-        
-        .color-swatch {
-            height: 140px;
-            background: var(--color);
+
+        /* Glassmorphism Icon Box */
+        .glass-icon-box {
             position: relative;
-        }
-        
-        .color-info {
-            padding: 30px;
-        }
-        
-        .color-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1a365d;
-            margin-bottom: 8px;
-        }
-        
-        .color-hex {
-            font-family: 'Monaco', monospace;
-            font-size: 14px;
-            color: #64748b;
-            background: #f8f9fa;
-            padding: 6px 12px;
-            border-radius: 8px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-        
-        .color-usage {
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.5;
-        }
-        
-        /* Visual Elements */
-        .visual-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        
-        .visual-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .visual-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .visual-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 25px;
-            background: linear-gradient(135deg, #1a365d, #c9a961);
-            border-radius: 16px;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 2rem;
-            animation: pulse 3s infinite;
+            color: #f8f9fa;
+            font-size: 2.5rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            overflow: hidden;
         }
-        
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 97, 0.7); }
-            50% { box-shadow: 0 0 0 20px rgba(201, 169, 97, 0); }
+
+        .glass-icon-box::before, .glass-icon-box::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: conic-gradient(from 180deg at 50% 50%, rgba(201, 169, 97, 0.5) 0deg, rgba(201, 169, 97, 0) 60deg, rgba(201, 169, 97, 0) 310deg, rgba(201, 169, 97, 0.5) 360deg);
+            animation: electricity 6s linear infinite;
         }
-        
-        .visual-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1a365d;
-            margin-bottom: 10px;
+        .glass-icon-box::after {
+            animation-delay: -3s;
         }
-        
-        .visual-description {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.6;
+
+        .glass-icon-box .icon-content {
+            z-index: 1;
+            animation: pulse 4s ease-in-out infinite;
         }
-        
-        /* Logo Animation Concepts */
-        .animation-concepts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        
+
         .concept-card {
-            background: white;
-            border-radius: 20px;
-            padding: 0;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            background: var(--bg, #f1f1f1);
+            color: white;
+            border-radius: 16px;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        
-        .concept-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-        
-        .concept-preview {
-            height: 120px;
-            background: var(--bg);
+        .concept-card .concept-info { padding: 24px; }
+        .concept-card .concept-preview {
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
+            height: 100px;
         }
-        
-        .concept-icon {
+        .concept-card .concept-icon {
             font-size: 3rem;
-            color: var(--icon-color);
-            animation: var(--animation);
+            color: var(--icon-color, #fff);
+            transition: transform 0.4s ease;
         }
-        
-        .concept-info {
-            padding: 25px;
-        }
-        
+        .concept-card:hover .concept-icon { transform: scale(1.2) rotate(10deg); }
         .concept-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1a365d;
-            margin-bottom: 10px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
         }
-        
         .concept-brief {
-            color: #64748b;
-            font-size: 13px;
-            line-height: 1.5;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            height: 20px;
+            transition: opacity 0.3s ease;
+            font-weight: 300;
         }
-        
         .concept-details {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease;
-            background: #f8f9fa;
-            margin: 0 -25px -25px;
-            padding: 0 25px;
+            opacity: 0;
+            transition: max-height 0.6s ease-in-out, opacity 0.6s ease-in-out, margin-top 0.6s ease-in-out;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            font-weight: 300;
         }
-        
         .concept-card.expanded .concept-details {
-            max-height: 300px;
-            padding: 25px;
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 16px;
         }
-        
-        .concept-description {
-            color: #334155;
-            line-height: 1.6;
-            margin-bottom: 15px;
+        .concept-card.expanded .concept-brief {
+            opacity: 0;
+            height: 0;
         }
-        
         .concept-keywords {
-            font-size: 12px;
-            color: #c9a961;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        
-        /* Footer */
-        .footer {
-            background: #1a365d;
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
-        
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .footer-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #c9a961;
-        }
-        
-        .footer-text {
-            font-size: 1.1rem;
+            margin-top: 12px;
+            font-weight: 500;
             opacity: 0.9;
-            line-height: 1.6;
+            color: var(--icon-color, #fff);
         }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container { padding: 0 20px; }
-            .logo-text { font-size: 2.5rem; }
-            .section-title { font-size: 2.2rem; }
-            .nav-tabs { gap: 20px; flex-direction: column; align-items: center; }
-            .color-grid, .visual-grid, .animation-concepts { grid-template-columns: 1fr; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* Animations */
-        @keyframes timeRotate {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 5px rgba(255,255,255,0.2); }
+            50% { transform: scale(1.05); text-shadow: 0 0 15px rgba(255,255,255,0.5); }
         }
-        
-        @keyframes ringGrow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        
-        @keyframes globeSpin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
+        @keyframes electricity {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <canvas id="three-canvas"></canvas>
-        <div class="header-content">
-            <h1 class="logo-text">Legacy Growth</h1>
-            <div class="divider"></div>
-            <p class="tagline">Premium Brand Strategy & Visual Excellence</p>
-        </div>
-    </header>
 
-    <!-- Navigation -->
-    <section class="nav-section">
-        <div class="container">
-            <nav class="nav-tabs">
-                <button class="nav-tab active" onclick="showSection('colors')">Color Strategy</button>
-                <button class="nav-tab" onclick="showSection('typography')">Typography</button>
-                <button class="nav-tab" onclick="showSection('visual')">Visual Elements</button>
-                <button class="nav-tab" onclick="showSection('animations')">Logo Concepts</button>
-            </nav>
-        </div>
-    </section>
+   <header class="header">
+       <canvas id="three-canvas"></canvas>
+       <div class="header-content">
+           <h1 class="logo-text">Legacy Growth</h1>
+           <div class="divider"></div>
+           <p class="tagline">Premium Brand Strategy & Visual Excellence</p>
+       </div>
+   </header>
 
-    <main>
-        <!-- Color Section -->
-        <section id="colors" class="content-section active">
-            <div class="container">
-                <h2 class="section-title">Color Strategy</h2>
-                <p class="section-subtitle">A sophisticated palette that embodies trust, legacy, and premium quality</p>
-                
-                <div class="color-grid">
-                    <div class="color-card">
-                        <div class="color-swatch" style="--color: #1a365d;"></div>
-                        <div class="color-info">
-                            <h3 class="color-name">Legacy Blue</h3>
-                            <span class="color-hex">#1a365d</span>
-                            <p class="color-usage">Primary brand color for headers, navigation, and key brand moments. Conveys unshakeable trust and institutional authority.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="color-card">
-                        <div class="color-swatch" style="--color: #c9a961;"></div>
-                        <div class="color-info">
-                            <h3 class="color-name">Prestige Gold</h3>
-                            <span class="color-hex">#c9a961</span>
-                            <p class="color-usage">Premium accent for luxury moments and sophisticated highlights. Suggests prosperity without ostentation.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="color-card">
-                        <div class="color-swatch" style="--color: #ffffff;"></div>
-                        <div class="color-info">
-                            <h3 class="color-name">Pure White</h3>
-                            <span class="color-hex">#ffffff</span>
-                            <p class="color-usage">Clean backgrounds and breathing space. Essential for minimalist sophistication.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="color-card">
-                        <div class="color-swatch" style="--color: #64748b;"></div>
-                        <div class="color-info">
-                            <h3 class="color-name">Slate Gray</h3>
-                            <span class="color-hex">#64748b</span>
-                            <p class="color-usage">Supporting text and subtle elements. Provides elegant hierarchy.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="color-card">
-                        <div class="color-swatch" style="--color: #f8f9fa;"></div>
-                        <div class="color-info">
-                            <h3 class="color-name">Cloud White</h3>
-                            <span class="color-hex">#f8f9fa</span>
-                            <p class="color-usage">Background sections and card surfaces. Creates subtle depth.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="color-card">
-                        <div class="color-swatch" style="--color: #0f172a;"></div>
-                        <div class="color-info">
-                            <h3 class="color-name">Deep Navy</h3>
-                            <span class="color-hex">#0f172a</span>
-                            <p class="color-usage">Premium dark moments and sophisticated contrasts.</p>
+   <section class="bg-white shadow-md sticky top-0 z-20">
+       <div class="max-w-7xl mx-auto px-4">
+           <nav class="flex justify-center flex-wrap">
+               <button class="nav-tab active" onclick="showSection('colors', this)">Color Strategy</button>
+               <button class="nav-tab" onclick="showSection('typography', this)">Typography</button>
+               <button class="nav-tab" onclick="showSection('visual', this)">Visual Elements</button>
+               <button class="nav-tab" onclick="showSection('animations', this)">Logo Concepts</button>
+           </nav>
+       </div>
+   </section>
+
+   <main class="max-w-7xl mx-auto px-4">
+       <section id="colors" class="content-section active">
+           <h2 class="section-title">Color Strategy</h2>
+           <p class="section-subtitle">A sophisticated palette that embodies trust, legacy, and premium quality while ensuring perfect video implementation.</p>
+           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="w-full h-24 rounded-md mb-4" style="background-color: #1a365d;"></div>
+                    <h3 class="font-serif text-xl font-bold">Legacy Blue <span class="font-sans font-light text-sm text-gray-400">#1a365d</span></h3>
+                    <p class="mt-2 text-gray-600 text-sm justified-text">Primary brand color for headers and key moments. Conveys unshakeable trust and authority.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="w-full h-24 rounded-md mb-4" style="background-color: #c9a961;"></div>
+                    <h3 class="font-serif text-xl font-bold">Prestige Gold <span class="font-sans font-light text-sm text-gray-400">#c9a961</span></h3>
+                    <p class="mt-2 text-gray-600 text-sm justified-text">Premium accent for luxury highlights. Suggests prosperity without ostentation.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="w-full h-24 rounded-md mb-4 border" style="background-color: #ffffff;"></div>
+                    <h3 class="font-serif text-xl font-bold">Pure White <span class="font-sans font-light text-sm text-gray-400">#ffffff</span></h3>
+                    <p class="mt-2 text-gray-600 text-sm justified-text">Clean backgrounds and breathing space. Essential for minimalist sophistication and clarity.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="w-full h-24 rounded-md mb-4" style="background-color: #64748b;"></div>
+                    <h3 class="font-serif text-xl font-bold">Slate Gray <span class="font-sans font-light text-sm text-gray-400">#64748b</span></h3>
+                    <p class="mt-2 text-gray-600 text-sm justified-text">Supporting text and subtle elements. Provides elegant hierarchy without visual competition.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="w-full h-24 rounded-md mb-4 border" style="background-color: #f8f9fa;"></div>
+                    <h3 class="font-serif text-xl font-bold">Cloud White <span class="font-sans font-light text-sm text-gray-400">#f8f9fa</span></h3>
+                    <p class="mt-2 text-gray-600 text-sm justified-text">Background sections and card surfaces. Creates subtle depth while maintaining pristine cleanliness.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="w-full h-24 rounded-md mb-4" style="background-color: #0f172a;"></div>
+                    <h3 class="font-serif text-xl font-bold">Deep Navy <span class="font-sans font-light text-sm text-gray-400">#0f172a</span></h3>
+                    <p class="mt-2 text-gray-600 text-sm justified-text">Premium dark moments and sophisticated contrasts. Maximum impact for exclusive content.</p>
+                </div>
+           </div>
+       </section>
+
+       <section id="typography" class="content-section">
+           <h2 class="section-title">Typography Excellence</h2>
+           <p class="section-subtitle">A luxury serif for distinction, paired with a thin, elegant sans-serif for clarity and maximum readability.</p>
+           <div class="grid md:grid-cols-2 gap-8">
+               <div class="bg-white rounded-2xl p-8 shadow-lg">
+                   <h3 class="text-lg font-medium mb-6">Cormorant Garamond — Elegant Headers</h3>
+                   <div class="font-serif text-5xl text-[#1a365d] mb-4">Legacy Growth</div>
+                   <div class="font-serif text-3xl mb-4 text-gray-600">Fostering Enduring Legacy</div>
+                   <p class="text-sm text-gray-500 justified-text">For headings that require a touch of timeless elegance and authority. Its refined letterforms convey a sense of heritage and sophistication.</p>
+               </div>
+               <div class="bg-white rounded-2xl p-8 shadow-lg">
+                   <h3 class="text-lg font-medium mb-6">Jost — Clean Body Text</h3>
+                   <div class="font-bold text-5xl text-[#1a365d] mb-4" style="font-family:'Jost', sans-serif; font-weight: 500;">Professional Excellence</div>
+                   <div class="font-semibold text-3xl mb-4 text-gray-600" style="font-family:'Jost', sans-serif; font-weight: 400;">Comprehensive Solutions</div>
+                   <p class="text-sm text-gray-500 leading-relaxed justified-text">Maximum readability for complex information while maintaining a clean, modern, and sophisticated appearance. Its thin weights are perfect for subtitles and on-screen text.</p>
+               </div>
+           </div>
+       </section>
+
+       <section id="visual" class="content-section">
+           <h2 class="section-title">Visual Elements</h2>
+           <p class="section-subtitle">Premium design elements that enhance sophistication while supporting legacy and growth themes.</p>
+           <div class="grid md:grid-cols-3 gap-8">
+               <div class="bg-white rounded-2xl p-8 shadow-lg text-center transition hover:shadow-2xl hover:-translate-y-2">
+                   <div class="glass-icon-box" style="background-color: rgba(26, 54, 93, 0.5);"><div class="icon-content">◆</div></div>
+                   <h3 class="font-serif text-2xl text-[#1a365d] mb-3">Geometric Precision</h3>
+                   <p class="text-gray-600 text-sm leading-relaxed justified-text">Clean architectural lines and geometric shapes that convey mathematical precision, stability, and the structured approach to wealth management that UHNW clients expect.</p>
+               </div>
+               <div class="bg-white rounded-2xl p-8 shadow-lg text-center transition hover:shadow-2xl hover:-translate-y-2">
+                   <div class="glass-icon-box" style="background-color: rgba(26, 54, 93, 0.5);"><div class="icon-content">∞</div></div>
+                   <h3 class="font-serif text-2xl text-[#1a365d] mb-3">Legacy Connections</h3>
+                   <p class="text-gray-600 text-sm leading-relaxed justified-text">Flowing curves and connecting elements that represent multi-generational wealth transfer, global connectivity, and the endless nature of family legacy preservation.</p>
+               </div>
+               <div class="bg-white rounded-2xl p-8 shadow-lg text-center transition hover:shadow-2xl hover:-translate-y-2">
+                   <div class="glass-icon-box" style="background-color: rgba(26, 54, 93, 0.5);"><div class="icon-content">◉</div></div>
+                   <h3 class="font-serif text-2xl text-[#1a365d] mb-3">Growth Dynamics</h3>
+                   <p class="text-gray-600 text-sm leading-relaxed justified-text">Sophisticated gradients and expanding elements that suggest organic growth, value creation, and the dynamic nature of wealth expansion over time.</p>
+               </div>
+           </div>
+            <!-- Video Execution Preview -->
+            <div class="mt-16">
+                <h3 class="section-title mb-6">Execution Preview</h3>
+                <div class="bg-gray-800 rounded-2xl p-4 shadow-2xl relative h-96 bg-cover bg-center" style="background-image: url('https://placehold.co/1200x600/0f172a/64748b?text=Interview+Scene');">
+                    <div class="absolute bottom-8 left-8 right-8">
+                         <div class="p-4 rounded-xl border border-white/20 shadow-2xl" style="background: rgba(26, 54, 93, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+                            <div class="border-l-4 border-[#c9a961] pl-4">
+                                <div class="font-serif text-2xl text-white font-semibold">Jonathan Mitchell</div>
+                                <div class="text-white text-base opacity-80 mt-1 font-light" style="font-family:'Jost', sans-serif;">Managing Partner, Legacy Growth</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+       </section>
 
-        <!-- Typography Section -->
-        <section id="typography" class="content-section">
-            <div class="container">
-                <h2 class="section-title">Typography Excellence</h2>
-                <p class="section-subtitle">Luxury serif for distinction, clean sans-serif for clarity</p>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px;">
-                    <div style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);">
-                        <h3 style="font-size: 1.2rem; color: #1a365d; font-weight: 600; margin-bottom: 20px;">Playfair Display - Luxury Headers</h3>
-                        <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; line-height: 1.2; margin-bottom: 15px; color: #1a365d;">Legacy Growth</div>
-                        <div style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 10px; color: #64748b;">Fostering Legacy</div>
-                        <div style="font-family: 'Playfair Display', serif; font-size: 1rem; color: #64748b;">Ultra-premium wealth management deserves exceptional typography</div>
-                    </div>
-                    
-                    <div style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);">
-                        <h3 style="font-size: 1.2rem; color: #1a365d; font-weight: 600; margin-bottom: 20px;">Inter - Clean Body Text</h3>
-                        <div style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 2.5rem; line-height: 1.2; margin-bottom: 15px; color: #1a365d;">Professional Excellence</div>
-                        <div style="font-family: 'Inter', sans-serif; font-size: 1.5rem; margin-bottom: 10px; color: #64748b;">Comprehensive Solutions</div>
-                        <div style="font-family: 'Inter', sans-serif; font-size: 1rem; color: #64748b;">Maximum readability for complex financial information</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Visual Elements Section -->
-        <section id="visual" class="content-section">
-            <div class="container">
-                <h2 class="section-title">Visual Elements</h2>
-                <p class="section-subtitle">Premium design elements that enhance sophistication</p>
-                
-                <div class="visual-grid">
-                    <div class="visual-card">
-                        <div class="visual-icon">◆</div>
-                        <h3 class="visual-title">Geometric Precision</h3>
-                        <p class="visual-description">Clean lines and geometric shapes that convey stability and mathematical precision in wealth management.</p>
-                    </div>
-                    
-                    <div class="visual-card">
-                        <div class="visual-icon">∞</div>
-                        <h3 class="visual-title">Legacy Connections</h3>
-                        <p class="visual-description">Flowing curves representing multi-generational wealth transfer and global connectivity.</p>
-                    </div>
-                    
-                    <div class="visual-card">
-                        <div class="visual-icon">◉</div>
-                        <h3 class="visual-title">Growth Dynamics</h3>
-                        <p class="visual-description">Sophisticated gradients suggesting organic growth and value creation over time.</p>
-                    </div>
-                    
-                    <div class="visual-card">
-                        <div class="visual-icon">⬢</div>
-                        <h3 class="visual-title">Premium Shadows</h3>
-                        <p class="visual-description">Soft, elevated shadows that create depth and premium aesthetic.</p>
-                    </div>
-                    
-                    <div class="visual-card">
-                        <div class="visual-icon">◎</div>
-                        <h3 class="visual-title">Breathing Space</h3>
-                        <p class="visual-description">Generous white space that conveys premium positioning.</p>
-                    </div>
-                    
-                    <div class="visual-card">
-                        <div class="visual-icon">⟐</div>
-                        <h3 class="visual-title">Heritage Structure</h3>
-                        <p class="visual-description">Grid systems ensuring perfect alignment and structured approach.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Logo Animation Concepts -->
-        <section id="animations" class="content-section">
-            <div class="container">
-                <h2 class="section-title">Logo Animation Concepts</h2>
-                <p class="section-subtitle">Seven sophisticated intro concepts for premium positioning</p>
-                
-                <div class="animation-concepts">
-                    <div class="concept-card" onclick="toggleConcept(this)" style="--bg: linear-gradient(135deg, #1a365d, #0f172a); --icon-color: #c9a961; --animation: timeRotate 4s infinite;">
-                        <div class="concept-preview">
-                            <div class="concept-icon">⌚</div>
-                        </div>
-                        <div class="concept-info">
-                            <h3 class="concept-title">Time & Legacy</h3>
-                            <p class="concept-brief">Precision mechanics forming the brand identity</p>
-                            <div class="concept-details">
-                                <p class="concept-description">Fade-in on macro close-up of watch tourbillon mechanism; camera glides to reveal the mechanism forms the 'G' in Growth, then locks into full Legacy Growth logotype embossed in platinum on black marble.</p>
-                                <p class="concept-keywords">Precision • Longevity • Mechanical Luxury</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="concept-card" onclick="toggleConcept(this)" style="--bg: linear-gradient(135deg, #0f172a, #1a365d); --icon-color: #c9a961; --animation: ringGrow 3s infinite;">
-                        <div class="concept-preview">
-                            <div class="concept-icon">◉</div>
-                        </div>
-                        <div class="concept-info">
-                            <h3 class="concept-title">Rings of Continuity</h3>
-                            <p class="concept-brief">Tree rings crystallizing into logo</p>
-                            <div class="concept-details">
-                                <p class="concept-description">Radiating tree-rings (3-D ridged gold lines on obsidian) grow outward; the negative space crystallizes into the logomark. Microscopic gold particles settle, hinting at preservation of wealth.</p>
-                                <p class="concept-keywords">Multi-generational • Organic • Preservation</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="concept-card" onclick="toggleConcept(this)" style="--bg: linear-gradient(135deg, #1a365d, #64748b); --icon-color: #c9a961; --animation: globeSpin 6s infinite;">
-                        <div class="concept-preview">
-                            <div class="concept-icon">🌐</div>
-                        </div>
-                        <div class="concept-info">
-                            <h3 class="concept-title">Global Meridian</h3>
-                            <p class="concept-brief">Great circles outlining the brand</p>
-                            <div class="concept-details">
-                                <p class="concept-description">A faint great-circle arc sweeps across a dark globe; as more arcs cross, they outline the L & G, then fuse into logo. Subtle latitude/longitude grid dissolves.</p>
-                                <p class="concept-keywords">Global Reach • Cross-border • Authority</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="concept-card" onclick="toggleConcept(this)" style="--bg: linear-gradient(135deg, #0f172a, #c9a961); --icon-color: white;">
-                        <div class="concept-preview">
-                            <div class="concept-icon">🏛️</div>
-                        </div>
-                        <div class="concept-info">
-                            <h3 class="concept-title">The Counsel's Seal</h3>
-                            <p class="concept-brief">Wax seal imprinting authority</p>
-                            <div class="concept-details">
-                                <p class="concept-description">Animated wax-seal imprint: molten platinum-gold droplet spreads, then a signet stamp presses down, leaving the Legacy Growth crest; metallic shimmer resolves into flat logo.</p>
-                                <p class="concept-keywords">Authority • Confidentiality • Craftsmanship</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="concept-card" onclick="toggleConcept(this)" style="--bg: linear-gradient(135deg, #f8f9fa, #c9a961); --icon-color: #1a365d;">
-                        <div class="concept-preview">
-                            <div class="concept-icon">✨</div>
-                        </div>
-                        <div class="concept-info">
-                            <h3 class="concept-title">Light of Growth</h3>
-                            <p class="concept-brief">Illuminating legal expertise</p>
-                            <div class="concept-details">
-                                <p class="concept-description">Single ray of white-gold light sweeps across screen, revealing micro-etched legal text; light focuses into quill nib stroke writing "Legacy", then blooms into "Growth".</p>
-                                <p class="concept-keywords">Legal Excellence • Illumination • Precision</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="concept-card" onclick="toggleConcept(this)" style="--bg: linear-gradient(135deg, #1a365d, #f8f9fa); --icon-color: #c9a961;">
-                        <div class="concept-preview">
-                            <div class="concept-icon">📐</div>
-                        </div>
-                        <div class="concept-info">
-                            <h3 class="concept-title">Architect of Wealth</h3>
-                            <p class="concept-brief">Drafting tools creating blueprint</p>
-                            <div class="concept-details">
-                                <p class="concept-description">Delicate platinum drafting tools elegantly trace precise arcs on black silk parchment, forming intricate architectural blueprint that shapes into Legacy Growth logo.</p>
-                                <p class="concept-keywords">Precision Design • Luxury Craft • Blueprint</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="concept-card" onclick="toggleConcept(this)" style="--bg: linear-gradient(135deg, #0f172a, #64748b); --icon-color: #c9a961;">
-                        <div class="concept-preview">
-                            <div class="concept-icon">🧭</div>
-                        </div>
-                        <div class="concept-info">
-                            <h3 class="concept-title">Heritage Compass</h3>
-                            <p class="concept-brief">Guiding toward legacy direction</p>
-                            <div class="concept-details">
-                                <p class="concept-description">Camera approaches platinum compass on midnight navy velvet. Needle moves precisely, aligning to point north (legacy direction). Engraved face transforms into Legacy Growth logo.</p>
-                                <p class="concept-keywords">Guidance • Direction • Trust</p>
-                            </div>
+       <section id="animations" class="content-section">
+           <h2 class="section-title">Logo Animation Concepts</h2>
+           <p class="section-subtitle">Seven sophisticated intro concepts that embody Legacy Growth's premium positioning and values.</p>
+           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="concept-card" onclick="toggleConcept(this)" style="--bg: #1a365d; --icon-color: #c9a961;">
+                    <div class="concept-preview"><div class="glass-icon-box"><div class="icon-content">⌚</div></div></div>
+                    <div class="concept-info">
+                        <h3 class="concept-title">Time & Legacy</h3>
+                        <p class="concept-brief">Precision mechanics forming the brand identity.</p>
+                        <div class="concept-details">
+                            <p class="justified-text">Fade-in on macro close-up of watch tourbillon; camera glides to reveal the mechanism forms the 'G', then locks into full logotype embossed in platinum.</p>
+                            <p class="concept-keywords">Precision • Longevity • Mechanical Luxury</p>
                         </div>
                     </div>
                 </div>
-                
-                <div style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); margin-top: 40px; text-align: center;">
-                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #1a365d; margin-bottom: 20px;">Recommended Approach</h3>
-                    <p style="color: #64748b; line-height: 1.7; max-width: 700px; margin: 0 auto;">
-                        For Legacy Growth's ultra-premium positioning, we recommend <strong>Time & Legacy</strong> or <strong>Heritage Compass</strong>. Both concepts embody sophisticated confidence while clearly communicating precision, guidance, and generational thinking.
-                    </p>
+                <div class="concept-card" onclick="toggleConcept(this)" style="--bg: #0f172a; --icon-color: #c9a961;">
+                    <div class="concept-preview"><div class="glass-icon-box"><div class="icon-content">◉</div></div></div>
+                    <div class="concept-info">
+                        <h3 class="concept-title">Rings of Continuity</h3>
+                        <p class="concept-brief">Tree rings crystallizing into logo form.</p>
+                        <div class="concept-details">
+                            <p class="justified-text">Radiating tree-rings (3D ridged gold lines on obsidian) grow outward; the negative space crystallizes into the logomark as gold particles settle.</p>
+                            <p class="concept-keywords">Multi-generational • Organic • Preservation</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
+                <div class="concept-card" onclick="toggleConcept(this)" style="--bg: #2d3748; --icon-color: #c9a961;">
+                    <div class="concept-preview"><div class="glass-icon-box"><div class="icon-content">🌐</div></div></div>
+                    <div class="concept-info">
+                        <h3 class="concept-title">Global Meridian</h3>
+                        <p class="concept-brief">Great circles outlining the brand.</p>
+                        <div class="concept-details">
+                            <p class="justified-text">A faint great-circle arc sweeps across a dark globe; as more arcs cross, they outline the L & G, then fuse into logo. Subtle grid dissolves.</p>
+                            <p class="concept-keywords">Global Reach • Cross-border • Authority</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-card" onclick="toggleConcept(this)" style="--bg: #4a300a; --icon-color: white;">
+                    <div class="concept-preview"><div class="glass-icon-box"><div class="icon-content">🏛️</div></div></div>
+                    <div class="concept-info">
+                        <h3 class="concept-title">The Counsel's Seal</h3>
+                        <p class="concept-brief">Wax seal imprinting brand authority.</p>
+                        <div class="concept-details">
+                            <p class="justified-text">Animated wax-seal imprint: molten platinum-gold droplet spreads, then a signet stamp presses down, leaving the Legacy Growth crest which resolves to flat logo.</p>
+                            <p class="concept-keywords">Authority • Confidentiality • Craftsmanship</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-card" onclick="toggleConcept(this)" style="--bg: #e2e8f0; --icon-color: #1a365d;">
+                    <div class="concept-preview"><div class="glass-icon-box" style="background:rgba(255,255,255,0.4);"><div class="icon-content" style="color: #1a365d;">✨</div></div></div>
+                    <div class="concept-info" style="color:#1a365d;">
+                        <h3 class="concept-title">Light of Growth</h3>
+                        <p class="concept-brief">Illuminating legal expertise.</p>
+                        <div class="concept-details">
+                            <p class="justified-text">Single ray of white-gold light sweeps across screen, revealing micro-etched legal text; light focuses into a quill nib writing "Legacy", then blooms into "Growth".</p>
+                            <p class="concept-keywords">Legal Excellence • Illumination • Precision</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="concept-card" onclick="toggleConcept(this)" style="--bg: #4a5568; --icon-color: #c9a961;">
+                    <div class="concept-preview"><div class="glass-icon-box"><div class="icon-content">🧭</div></div></div>
+                    <div class="concept-info">
+                        <h3 class="concept-title">Heritage Compass</h3>
+                        <p class="concept-brief">Guiding toward legacy direction.</p>
+                        <div class="concept-details">
+                            <p class="justified-text">Camera approaches platinum compass. Needle moves precisely to point north (legacy direction). Engraved face transforms into Legacy Growth logo.</p>
+                            <p class="concept-keywords">Guidance • Direction • Trust</p>
+                        </div>
+                    </div>
+                </div>
+           </div>
+       </section>
+   </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <h3 class="footer-title">Excellence in Every Frame</h3>
-                <p class="footer-text">
-                    This comprehensive visual strategy establishes Legacy Growth's premium brand foundation across all video content, podcast productions, and digital touchpoints.
-                </p>
-            </div>
-        </div>
-    </footer>
+   <footer class="bg-[#1a365d] text-white py-20 mt-16">
+       <div class="max-w-4xl mx-auto text-center px-4">
+           <h3 class="font-serif text-4xl text-[#c9a961] mb-5">Excellence in Every Frame</h3>
+           <p class="text-lg opacity-90 leading-relaxed font-light">This comprehensive visual strategy establishes Legacy Growth's premium brand foundation across all video content, podcast productions, and digital touchpoints. Every element has been crafted to resonate with ultra-high net worth audiences while maintaining sophisticated elegance and timeless appeal.</p>
+       </div>
+   </footer>
 
-    <script>
-        // Three.js Particle Animation
-        let scene, camera, renderer, particles;
-        const canvas = document.getElementById('three-canvas');
+   <script>
+       function initThreeJS() {
+           if (typeof THREE === 'undefined') return;
+           let scene, camera, renderer, particles;
+           const canvas = document.getElementById('three-canvas');
+           const header = document.querySelector('.header');
+           scene = new THREE.Scene();
+           camera = new THREE.PerspectiveCamera(75, header.offsetWidth / header.offsetHeight, 0.1, 1000);
+           camera.position.z = 50;
+           renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+           renderer.setSize(header.offsetWidth, header.offsetHeight);
+           renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+           const particleCount = 800;
+           const positions = new Float32Array(particleCount * 3);
+           const colors = new Float32Array(particleCount * 3);
+           const colorGold = new THREE.Color("#c9a961");
+           const colorBlue = new THREE.Color("#64748b");
+           for (let i = 0; i < particleCount; i++) {
+               positions[i * 3] = (Math.random() - 0.5) * 300;
+               positions[i * 3 + 1] = (Math.random() - 0.5) * 300;
+               positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
+               const targetColor = Math.random() > 0.8 ? colorGold : colorBlue;
+               colors[i * 3] = targetColor.r;
+               colors[i * 3 + 1] = targetColor.g;
+               colors[i * 3 + 2] = targetColor.b;
+           }
+           const geometry = new THREE.BufferGeometry();
+           geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+           geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+           const material = new THREE.PointsMaterial({
+               size: 1.2,
+               blending: THREE.AdditiveBlending,
+               transparent: true,
+               opacity: 0.9,
+               vertexColors: true,
+               sizeAttenuation: true
+           });
+           particles = new THREE.Points(geometry, material);
+           scene.add(particles);
+           let mouseX = 0;
+           function onMouseMove(event) {
+               mouseX = (event.clientX / window.innerWidth) - 0.5;
+           }
+           document.addEventListener('mousemove', onMouseMove);
+           function animate() {
+               requestAnimationFrame(animate);
+               const elapsedTime = Date.now() * 0.00005;
+               particles.rotation.y = elapsedTime;
+               camera.position.x += (mouseX * 20 - camera.position.x) * 0.03;
+               camera.lookAt(scene.position);
+               renderer.render(scene, camera);
+           }
+           function onResize() {
+                camera.aspect = header.offsetWidth / header.offsetHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(header.offsetWidth, header.offsetHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+           }
+           window.addEventListener('resize', onResize);
+           animate();
+       }
 
-        function initThree() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 50;
+       function showSection(sectionId, clickedTab) {
+           document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+           document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+           document.getElementById(sectionId).classList.add('active');
+           clickedTab.classList.add('active');
+       }
 
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            // Particles
-            const particleCount = 500;
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-            
-            for (let i = 0; i < particleCount; i++) {
-                positions[i * 3] = (Math.random() - 0.5) * 200;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
-                positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
-                
-                const isGold = Math.random() > 0.7;
-                colors[i * 3] = isGold ? 0.8 : 0.1;
-                colors[i * 3 + 1] = isGold ? 0.7 : 0.2;
-                colors[i * 3 + 2] = isGold ? 0.4 : 0.4;
-            }
-            
-            const particlesGeometry = new THREE.BufferGeometry();
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-            
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 1,
-                blending: THREE.AdditiveBlending,
-                transparent: true,
-                opacity: 0.7,
-                vertexColors: true
-            });
-            
-            particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particles);
-
-            animate();
-        }
-
-        let mouseX = 0;
-        let mouseY = 0;
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            const elapsedTime = Date.now() * 0.0001;
-            particles.rotation.y = elapsedTime * 0.1;
-            particles.rotation.x = elapsedTime * 0.05;
-            
-            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
-            camera.position.y += (mouseY * 2 - camera.position.y) * 0.02;
-            camera.lookAt(scene.position);
-
-            renderer.render(scene, camera);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        window.addEventListener('resize', onWindowResize);
-        initThree();
-
-        // Navigation
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            document.getElementById(sectionId).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // Concept Cards
-        function toggleConcept(card) {
-            const isExpanded = card.classList.contains('expanded');
-            
-            document.querySelectorAll('.concept-card').forEach(c => c.classList.remove('expanded'));
-            
-            if (!isExpanded) {
-                card.classList.add('expanded');
-            }
-        }
-    </script>
+       function toggleConcept(card) {
+           const isExpanded = card.classList.contains('expanded');
+           document.querySelectorAll('.concept-card').forEach(c => c.classList.remove('expanded'));
+           if (!isExpanded) {
+               card.classList.add('expanded');
+           }
+       }
+       
+       document.addEventListener('DOMContentLoaded', initThreeJS);
+   </script>
 </body>
 </html>
